@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Switchboard launchd agent for macOS.
+     Install to ~/Library/LaunchAgents/com.example.switchboard.plist, fix the node and repo paths, then:
+       launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.example.switchboard.plist
+     Logs go to ~/switchboard/logs/launchd.{out,err}.log -->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.example.switchboard</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/bin/node</string>
+    <string>/Users/YOU/switchboard/src/index.js</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>SB_LISTEN</key>
+    <string>127.0.0.1:3930</string>
+  </dict>
+  <key>WorkingDirectory</key>
+  <string>/Users/YOU/switchboard</string>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/Users/YOU/switchboard/logs/launchd.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/YOU/switchboard/logs/launchd.err.log</string>
+</dict>
+</plist>

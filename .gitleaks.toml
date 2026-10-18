@@ -1,0 +1,13 @@
+title = "Switchboard gitleaks config"
+
+[extend]
+useDefault = true
+
+# Dummy tokens and hashes under test/ are fixtures for redaction/auth tests
+# (e.g. sha256 of "tok-full", MOCK_FROM_FILE="s3cret", sk-/AKIA- lookalikes
+# in the secret-rejection tests). Nothing under test/ is a live credential.
+[allowlist]
+description = "Test fixtures only"
+paths = [
+  '''test/''',
+]

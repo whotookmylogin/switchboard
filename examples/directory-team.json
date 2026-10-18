@@ -1,0 +1,10 @@
+[
+  {
+    "kind": "person",
+    "ref": "U100",
+    "title": "Alex Example",
+    "keys": "alex@example.com",
+    "line": "Alex Example · alex@example.com · engineering",
+    "weight": 2
+  }
+]

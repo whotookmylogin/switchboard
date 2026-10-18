@@ -1,0 +1,19 @@
+# Switchboard systemd user unit. Install to ~/.config/systemd/user/switchboard.service,
+# then: systemctl --user daemon-reload && systemctl --user enable --now switchboard
+# Point ExecStart at a Node >= 22.13 binary you control (distro node may be too old).
+[Unit]
+Description=Switchboard MCP hub
+StartLimitIntervalSec=0
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/node %h/switchboard/src/index.js
+Environment=SB_LISTEN=127.0.0.1:3930
+Restart=always
+RestartSec=2
+KillMode=mixed
+TimeoutStopSec=20
+
+[Install]
+WantedBy=default.target

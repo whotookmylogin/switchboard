@@ -1,0 +1,11 @@
+# ~/.codex/config.toml
+# Export SWITCHBOARD_TOKEN in the shell that starts Codex (keeps the key out of this file).
+
+[mcp_servers.switchboard]
+url = "https://switchboard.example.com/mcp"
+bearer_token_env_var = "SWITCHBOARD_TOKEN"
+
+# Or one server per connector, for shorter tool names:
+# [mcp_servers.switchboard-tasks]
+# url = "https://switchboard.example.com/mcp/tasks"
+# bearer_token_env_var = "SWITCHBOARD_TOKEN"

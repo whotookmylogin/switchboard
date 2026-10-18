@@ -1,0 +1,12 @@
+# Install to ~/.config/systemd/user/switchboard-watchdog.timer,
+# then: systemctl --user daemon-reload && systemctl --user enable --now switchboard-watchdog.timer
+[Unit]
+Description=Run the Switchboard watchdog every 2 minutes
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=2min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

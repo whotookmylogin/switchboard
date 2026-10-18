@@ -1,0 +1,31 @@
+agents:
+  full:
+    token_sha256: d19862e62fc0c6134e07d436317c90b06ff52036a550f037fe88a58c468ebf66
+    grants: { "*": "*" }
+  limited:
+    token_sha256: a928aea21160b836c679afa38fd4d0d44539ea87e92652390ba70ab75ae98fc0
+    grants: { mock: [echo, "sl*"] }
+  revoked:
+    token_sha256: e721594b71155e7278c5e276710c1b271492d7165d3d13795c0b551b1c6dac25
+    enabled: false
+    grants: { "*": "*" }
+  arp-a:
+    token_sha256: bcd42a18fd071ebdeb9d121bc384799e5476c5a637530e295d1fbfdadcebf875
+    grants: { agents: "*" }
+  arp-b:
+    token_sha256: 5f8339f84548d9cb6a4c4d8a55f73d5631b650ecc1e2bc98eee23e273ae726e8
+    grants: { agents: "*", mock: [echo] }
+  tok-mockonly:
+    token_sha256: 428ea01e0e851290051cb9d6fde1eac772dc54e5cc8da165e9d89345f2462128
+    grants: { mock: ["*"] }
+  oauth-ok:
+    oauth: true
+    grants: { mock: [echo] }
+  capped:
+    token_sha256: 70e2a99b45f771f6729ed173d830a0d24ddef11fb1de1ada94d649def73732b1
+    max_result_kb: 32
+    grants: { mock: "*" }
+  compacted:
+    token_sha256: 584f2746ff9771d0a95102de3664a8d9f3c9dc14d489607d78078f78d3584f49
+    compact: true
+    grants: { mock: "*" }

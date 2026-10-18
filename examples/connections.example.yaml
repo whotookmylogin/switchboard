@@ -1,0 +1,20 @@
+# env_files paths resolve against the directory containing this file (e.g. config/).
+env_files:
+  - example.env
+connections:
+  filesystem:
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-filesystem", "/tmp"]
+  github:
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-github"]
+    env:
+      GITHUB_PERSONAL_ACCESS_TOKEN: "${GITHUB_TOKEN}"
+  sql-readonly:
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-postgres", "${DATABASE_URL}"]
+    default_sql_limit: 100
+  browser:
+    command: npx
+    args: ["-y", "@playwright/mcp@latest"]
+    serialize: true

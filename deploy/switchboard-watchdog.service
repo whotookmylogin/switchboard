@@ -1,0 +1,10 @@
+# Companion to switchboard.service: probes /healthz and restarts the service if it is down,
+# and prunes logs older than 30 days. Run by switchboard-watchdog.timer every 2 minutes.
+# Install to ~/.config/systemd/user/switchboard-watchdog.service
+[Unit]
+Description=Switchboard watchdog
+
+[Service]
+Type=oneshot
+Environment=SB_HOME=%h/switchboard
+ExecStart=%h/switchboard/tools/watchdog.sh

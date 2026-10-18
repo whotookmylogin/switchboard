@@ -1,0 +1,17 @@
+# cloudflared config for exposing Switchboard through a Cloudflare Tunnel.
+# Switchboard stays bound to 127.0.0.1; the tunnel is the only way in.
+# /healthz is hidden automatically: cloudflared adds cf-connecting-ip to tunneled
+# requests, and Switchboard answers 404 for those.
+#
+#   cloudflared tunnel create switchboard
+#   cloudflared tunnel route dns switchboard switchboard.example.com
+#   cp deploy/cloudflared-config.example.yml ~/.cloudflared/config.yml  # fill in the id
+#   cloudflared service install
+
+tunnel: TUNNEL_ID
+credentials-file: /home/YOU/.cloudflared/TUNNEL_ID.json
+
+ingress:
+  - hostname: switchboard.example.com
+    service: http://127.0.0.1:3930
+  - service: http_status:404

@@ -1,0 +1,16 @@
+# Example crontab for the Switchboard cron jobs. `crontab -e`, then adjust paths.
+#
+# Cron starts jobs with a bare environment and no login shell: PATH is just /usr/bin:/bin.
+# node, python3, flock and claude/codex often live elsewhere, so the jobs below fail
+# silently without an explicit PATH. Set it here, with the directories your tools use.
+PATH=/home/YOU/.local/bin:/home/YOU/bin:/usr/local/bin:/usr/bin:/bin
+
+# Lane runner: claim ready tasks per lane and run headless workers. flock -n makes
+# overlapping ticks exit quietly (the runner also takes its own internal lock).
+*/2 * * * * flock -n /tmp/switchboard-lane-runner.lock /home/YOU/switchboard/tools/lane_runner.py --config /home/YOU/switchboard/config/lane_runner.json
+
+# Rebuild the lookup directory hourly.
+7 * * * * cd /home/YOU/switchboard && node tools/directory_refresh.mjs >> logs/directory_refresh.log 2>&1
+
+# Rebuild the notes index every 30 minutes.
+*/30 * * * * cd /home/YOU/switchboard && node tools/notes_refresh.mjs >> logs/notes_refresh.log 2>&1

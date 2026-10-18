@@ -1,0 +1,34 @@
+{
+  "enabled": true,
+  "switchboard_url": "http://127.0.0.1:3930",
+  "token": "sb_paste_an_agent_token_here",
+  "lanes": {
+    "claude": {
+      "enabled": true,
+      "command": ["claude", "-p", "--permission-mode", "acceptEdits", "--output-format", "json"],
+      "daily_cap": 8,
+      "concurrency": 1
+    },
+    "codex": {
+      "enabled": true,
+      "command": ["codex", "exec", "-"],
+      "daily_cap": 8,
+      "concurrency": 1
+    },
+    "echo": {
+      "enabled": false,
+      "command": ["/bin/cat", "{prompt_file}"],
+      "daily_cap": 4,
+      "concurrency": 1
+    }
+  },
+  "trusted_creators": ["human", "claude", "codex"],
+  "max_runtime_minutes": 120,
+  "claim_ttl_minutes": 30,
+  "manual_markers": ["[manual]", "no-auto", "[interactive]"],
+  "skip_boards": [],
+  "skip_cards": [],
+  "state_path": "~/.local/state/switchboard/lane_runner_state.json",
+  "log_path": "~/.local/state/switchboard/lane-runner.log",
+  "runs_dir": "~/.local/state/switchboard/lane-runs"
+}

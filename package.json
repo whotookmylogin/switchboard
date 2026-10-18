@@ -1,0 +1,43 @@
+{
+  "name": "switchboard-mcp",
+  "version": "0.1.0",
+  "description": "Shared MCP connector hub: one process per connector, per-agent tokens and grants, audit log",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whotookmylogin/switchboard.git"
+  },
+  "homepage": "https://github.com/whotookmylogin/switchboard#readme",
+  "bugs": "https://github.com/whotookmylogin/switchboard/issues",
+  "files": [
+    "src",
+    "bin",
+    "tools",
+    "examples",
+    "deploy",
+    "docs",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.13"
+  },
+  "keywords": [
+    "mcp",
+    "agents",
+    "model-context-protocol",
+    "multi-agent"
+  ],
+  "bin": {
+    "sb": "bin/sb.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test --test-concurrency=1 'test/**/*.test.mjs'"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "yaml": "2.9.1"
+  }
+}

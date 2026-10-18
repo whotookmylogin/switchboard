@@ -1,0 +1,134 @@
+# Output of examples/demo.sh (captured on a real run)
+
+$ examples/demo.sh
+
+== Writing a throwaway config under /tmp/tmp.YOMwMzobqc
+connector 'demo' -> test/mock-server.mjs
+
+== Creating alice-agent and bob-agent (each key is shown once; only sha256 is stored)
+alice-agent key: sb_Zm6Gq...
+bob-agent key:   sb_hU3Px...
+
+== Starting Switchboard on http://127.0.0.1:3939
+{
+  "ok": true,
+  "connectors": {
+    "agents": {
+      "up": true,
+      "pid": null,
+      "restarts": 0,
+      "inflight": 0,
+      "since": "2026-10-18T19:41:43.376Z"
+    },
+    "tasks": {
+      "up": true,
+      "pid": null,
+      "restarts": 0,
+      "inflight": 0,
+      "since": "2026-10-18T19:41:43.376Z"
+    },
+    "lookup": {
+      "up": true,
+      "pid": null,
+      "restarts": 0,
+      "inflight": 0,
+      "since": "2026-10-18T19:41:43.446Z"
+    },
+    "memory": {
+      "up": true,
+      "pid": null,
+      "restarts": 0,
+      "inflight": 0,
+      "since": "2026-10-18T19:41:43.505Z"
+    },
+    "notes": {
+      "up": true,
+      "pid": null,
+      "restarts": 0,
+      "inflight": 0,
+      "since": "2026-10-18T19:41:43.505Z"
+    },
+    "demo": {
+      "up": true,
+      "pid": 2622457,
+      "restarts": 0,
+      "inflight": 0,
+      "since": "2026-10-18T19:41:43.984Z"
+    }
+  }
+}
+
+== alice starts a task on board 'default'
+{
+  "task": {
+    "id": "t_7414088f",
+    "board": "default",
+    "title": "Write the launch checklist for acme",
+    "status": "running",
+    "assignee": "alice-agent",
+    "priority": 0,
+    "created_by": "alice-agent",
+    "created_at": "2026-10-18T19:41:44Z",
+    "claimed_by": "switchboard/alice-agent",
+    "claim_expires": "2026-10-18T20:11:44Z",
+    "body": null,
+    "result": null,
+    "started_at": "2026-10-18T19:41:44Z",
+    "completed_at": null,
+    "workspace_path": null,
+    "block_kind": null
+  }
+}
+
+== bob searches open tasks and finds it (no duplicate work)
+{
+  "matches": [
+    {
+      "id": "t_7414088f",
+      "board": "default",
+      "title": "Write the launch checklist for acme",
+      "status": "running",
+      "assignee": "alice-agent",
+      "priority": 0,
+      "created_by": "alice-agent",
+      "created_at": "2026-10-18T19:41:44Z",
+      "claimed_by": "switchboard/alice-agent",
+      "claim_expires": "2026-10-18T20:11:44Z"
+    }
+  ]
+}
+
+== bob tries to claim the task alice holds (conflict expected)
+"Switchboard: cannot claim t_7414088f: status=running, claimed_by=switchboard/alice-agent until 2026-10-18T20:11:44Z"
+
+== alice completes it with a receipt
+{
+  "task": {
+    "id": "t_7414088f",
+    "board": "default",
+    "title": "Write the launch checklist for acme",
+    "status": "done",
+    "assignee": "alice-agent",
+    "priority": 0,
+    "created_by": "alice-agent",
+    "created_at": "2026-10-18T19:41:44Z",
+    "claimed_by": null,
+    "claim_expires": null
+  }
+}
+
+== alice saves a note to shared memory
+"Saved as n_3d5149."
+
+== bob recalls it with his own key
+"tip n_3d5149 Launch checklists live on board default: Before drafting a launch checklist, run tasks.find first so two agents never write the same one."
+
+== The audit log, through 'sb log'
+2026-10-18T19:41:44 ok  alice-agent      tasks/start 17ms
+2026-10-18T19:41:44 ok  bob-agent        tasks/find 2ms
+2026-10-18T19:41:44 ERR bob-agent        tasks/claim 0ms
+2026-10-18T19:41:44 ok  alice-agent      tasks/complete 10ms
+2026-10-18T19:41:44 ok  alice-agent      memory/remember 35ms
+2026-10-18T19:41:44 ok  bob-agent        memory/recall 2ms
+
+== Done. Stopping the server and deleting /tmp/tmp.YOMwMzobqc

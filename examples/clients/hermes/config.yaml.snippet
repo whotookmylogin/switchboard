@@ -1,0 +1,15 @@
+# ~/.hermes/config.yaml — every local stdio MCP server moves into the Switchboard; Hermes connects over HTTP.
+# Tool names stay the same as before (mcp__<connector>__<tool>), so skills and prompts don't change.
+mcp_servers:
+  tasks:
+    url: http://127.0.0.1:3930/mcp/tasks
+    headers:
+      Authorization: Bearer ${SWITCHBOARD_TOKEN}
+    enabled: true
+    tools: {resources: false, prompts: false}
+  github:
+    url: http://127.0.0.1:3930/mcp/github
+    headers:
+      Authorization: Bearer ${SWITCHBOARD_TOKEN}
+    enabled: true
+    tools: {resources: false, prompts: false}

@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "~/.claude/hooks/switchboard-checkin.sh", "timeout": 10 }
+        ]
+      }
+    ]
+  }
+}

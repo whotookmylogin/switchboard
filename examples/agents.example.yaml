@@ -1,0 +1,35 @@
+# Token values are shown once by `sb agent add <name>`; only sha256 hashes are stored here.
+agents:
+  hermes:
+    token_sha256: "0000000000000000000000000000000000000000000000000000000000000001"
+    grants:
+      "*": "*"
+  claude-code:
+    token_sha256: "0000000000000000000000000000000000000000000000000000000000000002"
+    grants:
+      tasks: "*"
+      memory: "*"
+      lookup: "*"
+      github: ["search_repositories", "get_file_contents"]
+  cloud-agent:
+    token_sha256: "0000000000000000000000000000000000000000000000000000000000000003"
+    compact: true
+    max_result_kb: 32
+    grants:
+      lookup: "*"
+      github: ["search_repositories"]
+  oauth-desktop:
+    oauth: true
+    grants:
+      filesystem: ["read_file", "list_directory"]
+  restricted-example:
+    token_sha256: "0000000000000000000000000000000000000000000000000000000000000004"
+    memory_clearance: restricted
+    grants:
+      memory: "*"
+  deny-example:
+    token_sha256: "0000000000000000000000000000000000000000000000000000000000000005"
+    grants:
+      "*": "*"
+    deny:
+      filesystem: ["write_file"]

@@ -1,0 +1,15 @@
+# Copy to config/directory.yaml and adjust paths/tokens.
+# Rebuild: node tools/directory_refresh.mjs
+sources:
+  - name: team-json
+    type: file
+    path: ../examples/directory-team.json
+  - name: howto
+    type: guide
+    path: ../tools/directory_guide.md
+  - name: custom
+    type: command
+    command: [node, -e, "console.log(JSON.stringify([{kind:'guide',ref:'custom',title:'Custom source',keys:'example',line:'Custom source: from a command',weight:1}]))"]
+  # - name: slack
+  #   type: slack
+  #   token: ${SLACK_BOT_TOKEN}

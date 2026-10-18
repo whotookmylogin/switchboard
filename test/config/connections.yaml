@@ -1,0 +1,13 @@
+# Relative to repo root when Switchboard is started from the repo (see cwd: ".").
+# Integration tests that spawn the server use test/helpers.mjs for absolute paths.
+env_files: [test.env]
+connections:
+  mock:
+    command: node
+    args: [test/mock-server.mjs]
+    cwd: .
+  mock-serial:
+    command: node
+    args: [test/mock-server.mjs]
+    cwd: .
+    serialize: true
