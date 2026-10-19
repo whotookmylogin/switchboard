@@ -291,17 +291,16 @@ function makeProxy(backend, agent, httpRes) {
         await progressChain;
         return result;
       }
-      // The non-tool MCP surface (resources, prompts, completion) is forwarded only when the agent's
-      // grant on this connector is unrestricted: a filtered tool list shouldn't open the rest of the
-      // server. logging/setLevel is refused outright; connector verbosity is the operator's call.
-      const refused = req.method === "logging/setLevel" || (/^(resources|prompts|completion)\//.test(req.method) && !unrestricted);
-      if (refused) {
+      // The non-tool MCP surface (resources, prompts, completion) is only for agents with an unrestricted
+      // grant on this connector: a filtered tool list must not open the rest of the server. Restricted agents
+      // get empty lists (so client start-up still works) and a refusal for reads. logging/setLevel is never
+      // forwarded: it would change verbosity for every agent sharing the connector.
+      if (req.method === "logging/setLevel") return {};
+      if (!unrestricted && /^(resources|prompts|completion)\//.test(req.method)) {
+        const empty = { "resources/list": { resources: [] }, "resources/templates/list": { resourceTemplates: [] }, "prompts/list": { prompts: [] } }[req.method];
+        if (empty) return empty;
         log("audit", { ...rec, ms: Date.now() - t0, ok: false, denied: true });
-        throw new Error(
-          req.method === "logging/setLevel"
-            ? `Switchboard: agents may not call logging/setLevel on ${backend.name}.`
-            : `Switchboard: agent "${agent}" may not call ${req.method} on ${backend.name} without an unrestricted grant.`
-        );
+        throw new Error(`Switchboard: agent "${agent}" may not call ${req.method} on ${backend.name} without an unrestricted grant.`);
       }
       let result = await backend.request(req, { signal: ac.signal, onprogress });
       await progressChain;

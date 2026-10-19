@@ -211,17 +211,19 @@ test("REST: list, call, deny, bad key, openapi, x-api-key, empty body", async ()
   assert.equal((await fetch(`${BASE}/healthz`, { headers: { "cf-connecting-ip": "1.2.3.4" } })).status, 404);
 });
 
-test("non-tool MCP methods need an unrestricted grant; logging/setLevel is always refused", async () => {
+test("non-tool MCP methods need an unrestricted grant; logging/setLevel is never forwarded", async () => {
   const lim = await connect("tok-limited");
-  for (const method of ["resources/list", "prompts/list", "completion/complete"]) {
-    await assert.rejects(lim.request({ method, params: {} }, ResultSchema), /unrestricted grant/, `${method} should be refused for a restricted grant`);
+  assert.deepEqual((await lim.request({ method: "resources/list", params: {} }, ResultSchema)).resources, []);
+  assert.deepEqual((await lim.request({ method: "prompts/list", params: {} }, ResultSchema)).prompts, []);
+  for (const method of ["resources/read", "prompts/get", "completion/complete"]) {
+    await assert.rejects(lim.request({ method, params: {} }, ResultSchema), /unrestricted grant/, method);
   }
   const full = await connect("tok-full");
-  // Forwarded for an unrestricted agent: the mock has no handler, so the error is the connector's
-  // "Method not found", not a Switchboard grant refusal.
+  // Forwarded for an unrestricted agent: the mock has no handler, so the connector says "Method not found".
   await assert.rejects(full.request({ method: "resources/list", params: {} }, ResultSchema), /method not found/i);
-  await assert.rejects(full.request({ method: "logging/setLevel", params: { level: "debug" } }, ResultSchema), /may not call logging\/setLevel/);
-  await lim.close(); await full.close();
+  await full.request({ method: "logging/setLevel", params: { level: "debug" } }, ResultSchema); // swallowed, not forwarded
+  await lim.close();
+  await full.close();
 });
 
 test("audit log records calls with arg sizes, not values", async () => {
